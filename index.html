@@ -64,7 +64,7 @@
       p {
         text-align: start;
         font-size: 12px;
-        font-weight: 400;
+        font-weight: 500;
       }
 
       .checkbox {
@@ -76,10 +76,22 @@
       .checkbox-p {
         margin: auto 1rem;
         text-align: start;
+        font-weight: 500;
       }
 
       .checkbox-img {
         height: 1rem !important;
+      }
+
+      .label-p {
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .alert-p {
+        color: rgb(236, 28, 28) !important;
+        padding: 0;
+        margin: auto;
       }
 
       .btn-div {
@@ -93,11 +105,67 @@
         border: none;
         color: white !important;
         font-size: 12px;
-        font-weight: 400;
+        font-weight: 500;
         padding: 0.8rem 0.5rem;
       }
 
+      .valid-email {
+        background: linear-gradient(
+          to right,
+          rgb(189, 63, 63),
+          hsl(4, 100%, 67%),
+          hsl(24, 63%, 52%)
+        );
+        width: 100%;
+        color: white !important;
+        border: none;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 0.8rem 0.5rem;
+        border-radius: 0.3rem;
+        transition: all 0.2s linear;
+      }
+
+      .valid-email:hover {
+        transform: scale(1.02);
+        font-size: 13px !important;
+      }
       /* card body style </end> */
+
+      /* this is the success page css <start>*/
+      .success {
+        max-width: 400px;
+        padding: auto;
+      }
+
+      .btn-D {
+        width: 100%;
+        background-color: hsl(234, 29%, 20%);
+        border: none;
+        color: white !important;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 0.8rem 0.5rem;
+        border-radius: 0.3rem;
+        transition: all 2s linear;
+      }
+
+      .btn-D:hover {
+        background: linear-gradient(
+          to right,
+          rgb(189, 63, 63),
+          hsl(4, 100%, 67%),
+          hsl(24, 63%, 52%)
+        );
+        width: 100%;
+        color: white !important;
+        border: none;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 0.8rem 0.5rem;
+        border-radius: 0.3rem;
+      }
+      /* this is the success page css <start>*/
 
       /*card style </end>*/
 
@@ -118,9 +186,14 @@
       class="container d-flex justify-content-center align-items-center"
       style="height: 100vh">
       <div class="card" style="max-width: 700px">
-        <div class="row justify-content-between m-3">
+        <!--------------------------------------------------------->
+        <!--this is the land page <start>-->
+        <div
+          class="row justify-content-between m-3"
+          style="display: none"
+          id="card1">
           <!-- left section <start> -->
-          <div class="card-body col-6">
+          <div class="card-body col-md-6">
             <!-- card title -->
             <h1 class="card-title">Stay updated!</h1>
 
@@ -166,27 +239,38 @@
               <!-- card checkbox </end> -->
 
               <!-- email input and button <start>-->
-              <div>
-                <p class="p-0 m-1">Email address</p>
+              <form>
+                <div class="row justify-content-between m-1">
+                  <label class="label-p p-0 m-1" for="email">
+                    Email address
+                  </label>
+                  <p class="alert-p" id="message"></p>
+                </div>
                 <div class="input-group flex-nowrap">
                   <input
                     type="text"
+                    id="email"
+                    name="email"
+                    oninput="updateButtonClass()"
                     class="form-control p-3"
                     placeholder="email@company.com" />
                 </div>
                 <div class="btn-div">
-                  <button class="btn" type="button">
+                  <button
+                    id="button"
+                    class="btn"
+                    onclick=" showContent('card1'), showHide('content1')">
                     Subscribe to monthly newsletter
                   </button>
                 </div>
-              </div>
+              </form>
               <!-- email input and button </end>-->
             </div>
           </div>
           <!-- left section </end> -->
 
           <!-- right section <start> -->
-          <div class="col-6 p-2">
+          <div class="col-md-6 p-2">
             <img
               src="./assets/images/illustration-sign-up-desktop.svg"
               class="img-fluid rounded-start"
@@ -194,17 +278,34 @@
           </div>
           <!-- right section </end> -->
         </div>
+        <!--this is the land page </end>-->
+        <!--------------------------------------------------------->
+
+        <!--this is the success section <start>-->
+        <div
+          class="success row justify-content-between m-3"
+          style="display: flex"
+          id="content1">
+          <div class="card-body">
+            <img src="./assets/images/icon-success.svg" alt="" />
+            <h1>Thanks for subscribing!</h1>
+            <p>
+              A confirmation email has been sent to ash@loremcompany.com. Please
+              open it and click the button inside to confirm your subscription.
+            </p>
+            <button
+              onclick="showContent('card1'), showSuccess('content1') "
+              class="btn-D"
+              id="button">
+              Dismiss message
+            </button>
+          </div>
+        </div>
+        <!--this is the success section <start>-->
+        <!--------------------------------------------------------->
       </div>
     </div>
     <!-- card section </end> -->
-
-    <!-- Success message start -->
-
-    Thanks for subscribing! A confirmation email has been sent to
-    ash@loremcompany.com. Please open it and click the button inside to confirm
-    your subscription. Dismiss message
-
-    <!-- Success message end -->
 
     <div class="attribution">
       Challenge by
@@ -212,6 +313,69 @@
         >Frontend Mentor</a
       >. Coded by <a href="#">Your Name Here</a>.
     </div>
+
+    <!------------------------------------------------------------------------------->
+
+    <!--JS scripts for the page -->
+    <script>
+      //validation js code <start>
+      function validateEmail(email) {
+        var re =
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+      }
+
+      var emailInput = document.getElementById("email");
+      var messageElement = document.getElementById("message");
+      emailInput.addEventListener("blur", function () {
+        if (!validateEmail(emailInput.value)) {
+          messageElement.textContent = "Please enter a valid email address";
+          emailInput.focus();
+        } else {
+          messageElement.textContent = "";
+        }
+      });
+      //validation js code </end>
+
+      //---------------------------------------------------
+
+      //change background for the email <start>
+      function updateButtonClass() {
+        // Get a reference to the email input element and the button
+        var emailInput = document.getElementById("email");
+        var button = document.getElementById("button");
+
+        // If the email input has a value, update the button's class
+        if (!validateEmail(emailInput.value)) {
+          button.className = "btn";
+        } else {
+          // If the email input is empty, reset the button's class
+          button.className = "valid-email";
+        }
+      }
+      //change background for the email </end>
+
+      //show and hide contents <start>
+      function showContent(cardId) {
+        var card = document.getElementById(cardId);
+        if (card.style.display === "none") {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      }
+
+      function showSuccess(contentId) {
+        var content = document.getElementById(contentId);
+        if (content.style.display === "flex") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "flex";
+        }
+      }
+
+      //show and hide contents <start>
+    </script>
 
     <!-- add bootstrap js, jquery, and popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
