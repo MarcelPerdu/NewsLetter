@@ -265,7 +265,7 @@
                     id="button"
                     class="btn"
                     type="button"
-                    onclick="showContent('card1'), showSuccess('content1')"
+                    onclick="showEmail(), showContent('card1'), showSuccess('content1')"
                     disabled>
                     Subscribe to monthly newsletter
                   </button>
@@ -305,7 +305,7 @@
             <button
               class="btn-D"
               id="button"
-              onclick="showEmail(emailDisplay), showContent('card1'), showSuccess('content1')">
+              onclick="showContent('card1'), showSuccess('content1')">
               Dismiss message
             </button>
           </div>
@@ -361,6 +361,7 @@
 
       function showEmail(email) {
         var emailInput = document.getElementById("email").value;
+        // console.log(emailInput);
         var emailDisplay = document.getElementById("emailDisplay");
         emailDisplay.innerHTML = emailInput + ".";
       }
